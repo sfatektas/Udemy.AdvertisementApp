@@ -8,6 +8,10 @@ namespace Udemy.Advertisement.Entities
 {
     public class AppUser : BaseEntity
     {
+        public string Firstname { get; set; }
+
+        public string Lastname { get; set; }
+
         public string Username { get; set; }
 
         public string Password { get; set; }
@@ -18,13 +22,13 @@ namespace Udemy.Advertisement.Entities
 
         public int GenderId { get; set; }
 
-        //Nav Prop
-
         public Gender Gender { get; set; }
+
+        //Nav Prop
 
         public List<AppUserRole> AppUserRoles { get; set; }
 
-        public List<AdvertisementUser> AdvertisementUsers { get; set; }
+        public List<AdvertisementAppUser> AdvertisementUsers { get; set; }
 
     }
 }

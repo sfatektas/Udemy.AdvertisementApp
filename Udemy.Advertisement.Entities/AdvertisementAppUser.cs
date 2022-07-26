@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Udemy.AdvertisementApp.Entities;
 
 namespace Udemy.Advertisement.Entities
 {
-    public class AdvertisementUser
+    public class AdvertisementAppUser :BaseEntity
     {
         public int AdvertisementId { get; set; }
 
         public Adversitement Adversitement { get; set; }
 
-        public int UserId { get; set; }
+        public int AppUserId { get; set; }
 
         public AppUser AppUser { get; set; }
 
         public int AdversitementUserStatusId { get; set; }
 
-        public AdversitementUserStatus AdversitementUserStatus { get; set; }
+        public AdversitementAppUserStatus AdversitementUserStatus { get; set; }
 
         public int MilitaryStatusId { get; set; }
 

@@ -10,6 +10,6 @@ namespace Udemy.Advertisement.Entities
     {
         public string  Defination { get; set; }
 
-        public List<AdvertisementUser> AdvertisementUsers{ get; set; }
+        public List<AdvertisementAppUser> AdvertisementUsers{ get; set; }
     }
 }
