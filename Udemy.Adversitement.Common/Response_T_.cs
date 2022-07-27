@@ -22,6 +22,11 @@ namespace Udemy.Adversitement.Common
         {
         }
 
+        public Response(ResponseType responseType, T data):base(responseType)
+        {
+            Data = data;
+        }
+
         public Response( ResponseType responseType, T data, List<CustomValidationError> validationErrors ) :
             this(responseType)
         {

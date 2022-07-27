@@ -8,7 +8,7 @@ namespace Udemy.Adversitement.Common.Interfaces
 {
     //T değeri instance ı oluşturulabilecek bir sınıf olmalıdır.
 
-    interface IResponse<T> :IResponse where T : class ,new()
+    public interface IResponse<T> :IResponse where T : class ,new()
     {
         public T Data { get; set; }
 

@@ -5,12 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FluentValidation" Version="10.1.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Udemy.Adversitement.Common\Udemy.AdversitementApp.Common.csproj" />
     <ProjectReference Include="..\Udemy.AdvertisementApp.DataAccess\Udemy.AdvertisementApp.DataAccess.csproj" />
+    <ProjectReference Include="..\Udemy.AdvertisementApp.Dtos\Udemy.AdvertisementApp.Dtos.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AutoMapper\" />
   </ItemGroup>
 
 </Project>

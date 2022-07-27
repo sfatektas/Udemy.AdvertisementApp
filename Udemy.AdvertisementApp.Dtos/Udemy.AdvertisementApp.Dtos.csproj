@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="obj\" />
+    <Folder Include="ProvidedServicesDtos\" />
+    <Folder Include="AdversitementDtos\" />
+    <Folder Include="AppRoleDtos\" />
   </ItemGroup>
 
 </Project>
