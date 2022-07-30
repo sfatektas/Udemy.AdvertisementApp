@@ -20,7 +20,7 @@ namespace Udemy.AdvertisementApp.Bussines.Services
     public class Service<CreateDto, UpdateDto, ListDto, T> : IService<CreateDto, UpdateDto, ListDto, T>
         where CreateDto : class,ICreateDto, new()
         where UpdateDto : class,IUpdateDto, new()
-        where ListDto : class,IDto, new()
+        where ListDto : class,IListDto, new()
         where T : BaseEntity
     {
         private readonly IMapper _mapper;
@@ -51,7 +51,8 @@ namespace Udemy.AdvertisementApp.Bussines.Services
         public async Task<Response<List<ListDto>>> GetAllAsync()
         {
             var TList = await _uow.GetRepository<T>().GetAllAsync();
-            return new Response<List<ListDto>>(ResponseType.Success,_mapper.Map<List<ListDto>>(TList));
+            var mappedList = _mapper.Map<List<T>,List<ListDto>>(TList);
+            return new Response<List<ListDto>>(ResponseType.Success,mappedList);
         }
 
         public async Task<IResponse> RemoveAsync(int id)
@@ -67,15 +68,18 @@ namespace Udemy.AdvertisementApp.Bussines.Services
 
         public async Task<IResponse<UpdateDto>> UpdateAsync(UpdateDto model)
         {
-        
-            var unchanged = await _uow.GetRepository<T>().FindAsync(model.Id);
-            if (unchanged == null)
+            var result = await _updateDtoValidator.ValidateAsync(model);
+            if (result.IsValid)
             {
-                _uow.GetRepository<T>().Update(_mapper.Map<T>(model), unchanged);
-                return new Response<UpdateDto>("İlgili data bulunamadı.",ResponseType.NotFound);
+                var unchanged = await _uow.GetRepository<T>().FindAsync(model.Id);
+                if (unchanged == null)
+                {
+                    _uow.GetRepository<T>().Update(_mapper.Map<T>(model), unchanged);
+                    return new Response<UpdateDto>("İlgili data bulunamadı.", ResponseType.NotFound);
+                }
+                return new Response<UpdateDto>(ResponseType.Success, model);
             }
-            return new Response<UpdateDto>(ResponseType.Success,model);
-
+            return new Response<UpdateDto>(ResponseType.ValidationError, model, result.ConvertToErrorList());
         }
 
         public async Task<IResponse<IDtoo>> GetByIdAsync<IDtoo>(int id) where IDtoo : class, IDto, new()

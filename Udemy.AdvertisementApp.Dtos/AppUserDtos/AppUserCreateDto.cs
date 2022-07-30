@@ -1,7 +1,7 @@
 ﻿using System;
 using Udemy.AdvertisementApp.Dtos.Interfaces;
 
-namespace Udemy.AdvertisementApp.Dtos
+namespace Udemy.AdvertisementApp.Dtos.AppUserDtos
 {
     public class AppUserCreateDto : ICreateDto
     {

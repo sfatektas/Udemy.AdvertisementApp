@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Udemy.AdvertisementApp.Dtos;
+using Udemy.AdvertisementApp.Dtos.AppUserDtos;
 
 namespace Udemy.AdvertisementApp.Bussines.ValidationRules.AppUserRules
 {

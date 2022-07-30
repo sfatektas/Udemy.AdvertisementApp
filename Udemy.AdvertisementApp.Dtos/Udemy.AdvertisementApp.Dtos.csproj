@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ProvidedServicesDtos\" />
     <Folder Include="AdversitementDtos\" />
     <Folder Include="AppRoleDtos\" />
   </ItemGroup>

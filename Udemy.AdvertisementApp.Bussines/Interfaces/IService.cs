@@ -12,7 +12,7 @@ namespace Udemy.AdvertisementApp.Bussines.Interfaces
 {
     public interface IService<CreateDto,UpdateDto,ListDto,T> where CreateDto : class, ICreateDto, new()
         where UpdateDto : class, IUpdateDto, new()
-        where ListDto : class, IDto, new()
+        where ListDto : class, IListDto, new()
         where T : BaseEntity
         
     {

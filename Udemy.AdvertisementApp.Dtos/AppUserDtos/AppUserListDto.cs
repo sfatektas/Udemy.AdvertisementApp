@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Udemy.AdvertisementApp.Dtos.Interfaces;
 
-namespace Udemy.AdvertisementApp.Dtos
+namespace Udemy.AdvertisementApp.Dtos.AppUserDtos
 {
-    public class AppUserListDto :IDto
+    public class AppUserListDto :IListDto
     {
         public string Firstname { get; set; }
 
