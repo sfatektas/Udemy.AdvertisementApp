@@ -18,6 +18,18 @@ namespace Udemy.AdvertisementApp.DataAccess.Configurations
 
             builder.Property(x => x.Defination).IsRequired().HasMaxLength(100);
 
+            //Seed Data
+
+            builder.HasData(new AppRole
+            {
+                Id = 1,
+                Defination = "Admin"
+            },
+            new AppRole
+            {
+                Id = 2,
+                Defination = "Member"
+            });
         }
     }
 }

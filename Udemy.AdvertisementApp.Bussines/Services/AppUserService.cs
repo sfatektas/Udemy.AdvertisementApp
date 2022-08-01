@@ -16,13 +16,29 @@ namespace Udemy.AdvertisementApp.Bussines.Services
 {
     public class AppUserService : Service<AppUserCreateDto,AppUserUpdateDto,AppUserListDto,AppUser>,IAppUserService
     {
+        private readonly IMapper _mapper;
+        private readonly IUow _uow;
+        private readonly IValidator<AppUserCreateDto> _createValidator;
+        private readonly IValidator<AppUserUpdateDto> _updateValidator;
 
         public AppUserService(IMapper mapper , IUow uow , IValidator<AppUserCreateDto> createValidator,IValidator<AppUserUpdateDto> updateValidator
             )
             : base(mapper,createValidator,updateValidator,uow)
         {
+            _mapper = mapper;
+            _uow = uow;
+            _createValidator = createValidator;
         }
         //Custome Service Methods 
-        //......
+
+        public async Task<IResponse<AppUserCreateDto>> CreateUserWithAsync(AppUserCreateDto dto)
+        {
+            var result =  await _createValidator.ValidateAsync(dto);
+            if (result.IsValid)
+            {
+                await _uow.GetRepository<AppUser>().CreateAsync(_mapper.Map<AppUser>(dto));
+            }
+            return new Response<AppUserCreateDto>(ResponseType.Success);
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace Udemy.AdvertisementApp.DataAccess.Configurations
 
             builder.HasIndex(x => new { x.AppRoleId, x.AppUserId }).IsUnique();
 
-            builder.HasOne(x => x.AppUser).WithMany(x => x.AppUserRoles).HasForeignKey(x=>x.AppUserId);
+            builder.HasOne(x => x.AppUser).WithMany(x => x.AppUserRoles).HasForeignKey(x => x.AppUserId);
 
             builder.HasOne(x => x.AppRole).WithMany(x => x.AppUserRoles).HasForeignKey(x => x.AppRoleId);
         }
