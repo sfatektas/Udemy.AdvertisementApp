@@ -3,6 +3,7 @@ using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Udemy.Adversitement.Common;
@@ -18,9 +19,9 @@ using Udemy.AdvertisementApp.Dtos.Interfaces;
 namespace Udemy.AdvertisementApp.Bussines.Services
 {
     public class Service<CreateDto, UpdateDto, ListDto, T> : IService<CreateDto, UpdateDto, ListDto, T>
-        where CreateDto : class,ICreateDto, new()
-        where UpdateDto : class,IUpdateDto, new()
-        where ListDto : class,IListDto, new()
+        where CreateDto : class, ICreateDto, new()
+        where UpdateDto : class, IUpdateDto, new()
+        where ListDto : class, IListDto, new()
         where T : BaseEntity
     {
         private readonly IMapper _mapper;
@@ -42,6 +43,7 @@ namespace Udemy.AdvertisementApp.Bussines.Services
             if (result.IsValid)
             {
                 await _uow.GetRepository<T>().CreateAsync(_mapper.Map<T>(model));
+                await _uow.SaveChangesAsync();
                 return new Response<CreateDto>(ResponseType.Success, model);
             }
             //validation extension
@@ -51,19 +53,30 @@ namespace Udemy.AdvertisementApp.Bussines.Services
         public async Task<Response<List<ListDto>>> GetAllAsync()
         {
             var TList = await _uow.GetRepository<T>().GetAllAsync();
-            var mappedList = _mapper.Map<List<T>,List<ListDto>>(TList);
-            return new Response<List<ListDto>>(ResponseType.Success,mappedList);
+            var mappedList = _mapper.Map<List<T>, List<ListDto>>(TList);
+            return new Response<List<ListDto>>(ResponseType.Success, mappedList);
         }
+
+        //public async Task<Response<List<ListDto>>> GetAllAsync(Expression<Func<ListDto, bool>> filter)
+        //{
+        //    var deneme = filter.Parameters[0];
+        //    var x = _mapper.Map<T>(filter);
+        //    var TList = await _uow.GetRepository<T>().GetAllAsync();
+        //    var mappedList = _mapper.Map<List<T>, List<ListDto>>(TList);
+        //    return new Response<List<ListDto>>(ResponseType.Success, mappedList);
+        //}
+
 
         public async Task<IResponse> RemoveAsync(int id)
         {
             var data = await _uow.GetRepository<T>().FindAsync(id);
-            if(data != null)
+            if (data != null)
             {
-                 _uow.GetRepository<T>().Remove(data);
+                _uow.GetRepository<T>().Remove(data);
+                await _uow.SaveChangesAsync();
                 return new Response(ResponseType.Success);
             }
-            return new Response("İlgili veri bulunamadı.",ResponseType.NotFound);
+            return new Response("İlgili veri bulunamadı.", ResponseType.NotFound);
         }
 
         public async Task<IResponse<UpdateDto>> UpdateAsync(UpdateDto model)
@@ -75,6 +88,7 @@ namespace Udemy.AdvertisementApp.Bussines.Services
                 if (unchanged == null)
                 {
                     _uow.GetRepository<T>().Update(_mapper.Map<T>(model), unchanged);
+                    await _uow.SaveChangesAsync();
                     return new Response<UpdateDto>("İlgili data bulunamadı.", ResponseType.NotFound);
                 }
                 return new Response<UpdateDto>(ResponseType.Success, model);
@@ -92,5 +106,9 @@ namespace Udemy.AdvertisementApp.Bussines.Services
             return new Response<IDtoo>("Böyle bir kayıta ulaşılamadı.", ResponseType.NotFound);
         }
 
+        public Task<Response<List<ListDto>>> GetAllAsync(Expression<Func<ListDto, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

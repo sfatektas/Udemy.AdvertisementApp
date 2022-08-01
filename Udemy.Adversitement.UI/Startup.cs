@@ -1,3 +1,5 @@
+using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Udemy.Adversitement.UI.Mapper.AutoMapper;
+using Udemy.Adversitement.UI.Models;
+using Udemy.Adversitement.UI.ValidationRules;
 using Udemy.AdvertisementApp.Bussines;
+using Udemy.AdvertisementApp.Bussines.Helpers;
 
 //N-tier ; 
 // UI , DTOS , BAL , ENTities , DAL , Common(Response , validation errors)
@@ -36,6 +42,19 @@ namespace Udemy.Adversitement.UI
             services.AddControllersWithViews();
             //DependencyResolves içerisinde tanýmlanan dbconnect propertysinin useSql methodu burda 
             //geçildi
+            var profiles = ProfileHelper.GetProfiles();
+            profiles.Add(new UserCreateModelProfile());
+            var mapperConfiguration = new MapperConfiguration(opt =>
+            {
+                //Busines tarafýndaki profilleri döndürüp UI katmanýndaki profilide ekliyoruz. Daha sonra DI geçiyoruz.
+                opt.AddProfiles(profiles);
+            });
+            var mapper = mapperConfiguration.CreateMapper();
+
+            //Singleton olarak instance yaratýrsak mapper olarak bir problem arz etmiyor.
+            services.AddSingleton(mapper);
+
+            services.AddTransient<IValidator<UserCreateModel>, UserCreateModelValidator>();
 
 
         }

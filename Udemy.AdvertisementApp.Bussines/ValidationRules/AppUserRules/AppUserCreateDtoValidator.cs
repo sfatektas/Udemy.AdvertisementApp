@@ -19,6 +19,7 @@ namespace Udemy.AdvertisementApp.Bussines.ValidationRules.AppUserRules
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.Password).NotEmpty().MaximumLength(50);
             RuleFor(x => x.PhoneNumber).NotEmpty().MaximumLength(20);
+            RuleFor(x => x.GenderId).NotEmpty();
         }
     }
 }

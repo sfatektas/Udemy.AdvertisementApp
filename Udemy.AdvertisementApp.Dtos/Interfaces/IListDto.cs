@@ -8,5 +8,6 @@ namespace Udemy.AdvertisementApp.Dtos.Interfaces
 {
     public interface IListDto
     {
+        public int Id { get; set; }
     }
 }

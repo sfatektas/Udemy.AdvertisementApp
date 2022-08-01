@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Udemy.Adversitement.Common;
@@ -26,6 +27,7 @@ namespace Udemy.AdvertisementApp.Bussines.Interfaces
 
         Task<Response<List<ListDto>>> GetAllAsync();
 
+        Task<Response<List<ListDto>>> GetAllAsync(Expression<Func<ListDto, bool>> filter);
 
     }
 }

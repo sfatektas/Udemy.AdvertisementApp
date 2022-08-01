@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = "_Layout";
+}
+@model List<AdvertisementListDto>
+
+
+<div class="accordion mt-5" id="accordionExample">
+    @for (int i = 0; i < Model?.Count; i++)
+    {
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    @Model[i].Title
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse @(i==0 ? "show":"") " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    @Model[i].Description
+                </div>
+            </div>
+        </div>
+    }
+</div>
