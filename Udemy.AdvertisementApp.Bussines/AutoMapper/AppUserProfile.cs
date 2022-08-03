@@ -16,6 +16,7 @@ namespace Udemy.AdvertisementApp.Bussines.AutoMapper
             CreateMap<AppUser, AppUserCreateDto>().ReverseMap();
             CreateMap<AppUser, AppUserUpdateDto>().ReverseMap();
             CreateMap<AppUser, AppUserListDto>().ReverseMap();
+            CreateMap<AppUser, AppUserLoginDto>().ReverseMap();
         }
     }
 }

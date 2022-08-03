@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,15 +25,15 @@ namespace Udemy.AdvertisementApp.Bussines
 {
     public static class DependencyExtension
     {
-        public static void DependencyInjection(this IServiceCollection services,IConfiguration configuration)
+        public static void DependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AdvertisementContext>(opt =>
             {
                 opt.UseSqlServer(configuration.GetConnectionString("Local"));
             });
-           
 
-            services.AddScoped<IUow,Uow>();
+
+            services.AddScoped<IUow, Uow>();
             services.AddTransient<IValidator<AppUserCreateDto>, AppUserCreateDtoValidator>();
             services.AddTransient<IValidator<AppUserUpdateDto>, AppUserUpdateDtoValidator>();
             services.AddTransient<IValidator<ProvidedServiceCreateDto>, ProvidedServiceCreateDtoValidator>();
@@ -41,12 +42,15 @@ namespace Udemy.AdvertisementApp.Bussines
             services.AddTransient<IValidator<AdvertisementCreateDto>, AdvertisementCreateDtoValidator>();
             services.AddTransient<IValidator<GenderCreateDto>, GenderCreateDtoValidator>();
             services.AddTransient<IValidator<GenderUpdateDto>, GenderUpdateDtoValidator>();
+            services.AddTransient<IValidator<AppUserLoginDto>, AppUserLoginDtoValidator>();
 
             //Generic serviste Dı geçmek yerine AppUserService üzerinde DI geçiyoruz.
             services.AddScoped<IAppUserService, AppUserService>();
             services.AddScoped<IProvidedServiceService, ProvidedServiceService>();
             services.AddScoped<IAdvertisementService, AdvertisementServices>();
             services.AddScoped<IGenderService, GenderService>();
+
+
         }
         //Mapper configurasyonları burda geçmek yerine sadece Profilleri burda ekleyip döndüren extra bir helper klasörü altında method yazıp startup 
         //tarafında usermodelcreate gibi modelleri mapper configurasyonuna eklemek için DI 'yı orda geçeceğiz. 

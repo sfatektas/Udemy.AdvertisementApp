@@ -12,7 +12,8 @@ namespace Udemy.AdvertisementApp.Bussines.Helpers
     {
         public static List<Profile> GetProfiles()
         {
-            return new List<Profile> { new AppUserProfile(), new ProvidedServiceProfile(), new AdvertisementProfile(), new GenderProfile() };
+            return new List<Profile> { new AppUserProfile(), new ProvidedServiceProfile(), new AdvertisementProfile(), new GenderProfile()
+            ,new AppRoleProfile()};
         }
     }
 }
