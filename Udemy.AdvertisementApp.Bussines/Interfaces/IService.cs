@@ -21,7 +21,7 @@ namespace Udemy.AdvertisementApp.Bussines.Interfaces
 
         Task<IResponse<UpdateDto>> UpdateAsync(UpdateDto model);
 
-        Task<IResponse<IDtoo>> GetByIdAsync<IDtoo>(int id) where IDtoo : class, IDto, new();
+        Task<IResponse<ListDto>> GetByIdAsync<IDtoo>(int id) where IDtoo : class, IListDto, new();
 
         Task<IResponse> RemoveAsync(int id);
 

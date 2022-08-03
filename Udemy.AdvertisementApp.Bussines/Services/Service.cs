@@ -96,14 +96,14 @@ namespace Udemy.AdvertisementApp.Bussines.Services
             return new Response<UpdateDto>(ResponseType.ValidationError, model, result.ConvertToErrorList());
         }
 
-        public async Task<IResponse<IDtoo>> GetByIdAsync<IDtoo>(int id) where IDtoo : class, IDto, new()
+        public async Task<IResponse<ListDto>> GetByIdAsync<IDtoo>(int id) where IDtoo : class, IListDto, new()
         {
             var data = await _uow.GetRepository<T>().GetByFilterAsync(x => x.Id == id);
             if (data != null)
             {
-                return new Response<IDtoo>(ResponseType.Success, _mapper.Map<IDtoo>(data));
+                return new Response<ListDto>(ResponseType.Success, _mapper.Map<ListDto>(data));
             }
-            return new Response<IDtoo>("Böyle bir kayıta ulaşılamadı.", ResponseType.NotFound);
+            return new Response<ListDto>("Böyle bir kayıta ulaşılamadı.", ResponseType.NotFound);
         }
 
         public Task<Response<List<ListDto>>> GetAllAsync(Expression<Func<ListDto, bool>> filter)

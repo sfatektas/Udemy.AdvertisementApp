@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,9 @@ namespace Udemy.Adversitement.UI.Controllers.Home
             var response = await _providedService.GetAllAsync();
             return this.ResponseView(response);
         }
+
+        //[Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> HumanResource()
         {
             var response = await _advertisementService.GetAllActiveAsync();

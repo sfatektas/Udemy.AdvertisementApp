@@ -1,0 +1,56 @@
+﻿
+@{
+    Layout = "_Layout";
+}
+@model AdvertisementAppUserCreateDto
+
+<form method="post" asp-controller="Advertisement" asp-action="Apply" class="mt-4 w-50 h-50 mx-auto">
+    <input type="hidden" asp-for="@Model.AdvertisementId" />
+    <input type="hidden" asp-for="@Model.AppUserId" />
+    <input type="hidden" asp-for="@Model.AdversitementUserStatusId" value="@((int)AdvertisementUserStatusType.Basvuruldu)" />
+
+    @{
+        if (ViewBag.GenderId == (int)GenderType.Erkek)
+        {
+            <div class="mb-3">
+                <label class="form-label">Military Status</label>
+                <select onchange="militaryvisible(document.getElementById(`MilitaryStatusId`).value)" asp-for="@Model.MilitaryStatusId" asp-items="@ViewBag.MilitaryStatus" class="form-select">
+                </select>
+
+            </div>
+            <div class="mb-3 " id="endDate">
+                <label class="form-label">End Date(Tescilli ise doldurulacaktır.)</label>
+                <input type="datetime" asp-for="@Model.EndDate" class="form-control">
+
+            </div>
+        }
+    }
+
+    <div class="mb-3">
+        <label class="form-label">Work Experience</label>
+        <input type="number" asp-for="@Model.WorkExperience" class="form-control">
+
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Cv</label>
+        <input type="file" asp-for="@Model.CvPath" class="form-control">
+
+    </div>
+
+    <button type="submit" asp-action="Apply" asp-controller="Advertisement" class="btn btn-primary">Apply</button>
+
+    <div class="text-danger" asp-validation-summary="All"></div>
+</form>
+@section script
+{
+    <script>
+        const militaryvisible = (value) => {
+            if (value == 1 || value==3) {
+                document.getElementById("endDate").classList.add("d-none");
+            }
+            else {
+                document.getElementById("endDate").classList.remove("d-none");
+            }
+        }
+    </script>
+}

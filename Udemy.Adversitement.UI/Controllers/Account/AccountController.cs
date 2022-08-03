@@ -51,11 +51,12 @@ namespace Udemy.Adversitement.UI.Controllers.Account
             if (result.IsValid)
             {
                 var dto = _mapper.Map<AppUserCreateDto>(model);
-                var createResponse = await _appUserService.CreateUserWithRoleAsync(dto,1);
-                return this.ResponseRedirectAction(createResponse,"Index");
+                var createResponse = await _appUserService.CreateUserWithRoleAsync(dto, 1);
+                return this.ResponseRedirectAction(createResponse, "Index");
             }
             else
             {
+
                 foreach (var item in result.Errors)
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
@@ -66,12 +67,13 @@ namespace Udemy.Adversitement.UI.Controllers.Account
             }
 
         }
-        public IActionResult SignIn()
+        public IActionResult SignIn(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View(new AppUserLoginDto());
         }
         [HttpPost]
-        public async Task <IActionResult> SignIn(AppUserLoginDto dto)
+        public async Task<IActionResult> SignIn(AppUserLoginDto dto ,string returnUrl)
         {
             var result = await _loginvalidator.ValidateAsync(dto);
             if (result.IsValid)
@@ -87,7 +89,7 @@ namespace Udemy.Adversitement.UI.Controllers.Account
                     };
                     foreach (var role in rolesResponse.Data)
                     {
-                        claims.Add(new(ClaimTypes.Role, role.ToString()));
+                        claims.Add(new(ClaimTypes.Role, role.Defination.ToString()));
                     }
 
                     var claimsIdentity = new ClaimsIdentity(
@@ -95,33 +97,22 @@ namespace Udemy.Adversitement.UI.Controllers.Account
 
                     var authProperties = new AuthenticationProperties
                     {
-                        //AllowRefresh = <bool>,
-                        // Refreshing the authentication session should be allowed.
-
-                        //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                        // The time at which the authentication ticket expires. A 
-                        // value set here overrides the ExpireTimeSpan option of 
-                        // CookieAuthenticationOptions set with AddCookie.
-
                         IsPersistent = true,
                         // Whether the authentication session is persisted across 
                         // multiple requests. When used with cookies, controls
                         // whether the cookie's lifetime is absolute (matching the
                         // lifetime of the authentication ticket) or session-based.
-
-                        //IssuedUtc = <DateTimeOffset>,
-                        // The time at which the authentication ticket was issued.
-
-                        //RedirectUri = <string>
-                        // The full path or absolute URI to be used as an http 
-                        // redirect response value.
                     };
 
                     await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity),
                         authProperties);
-                    return RedirectToAction("Index", "Home");
+                    if (returnUrl == "" || returnUrl == null)
+                        return RedirectToAction("Index", "Home");
+                    else
+                        return Redirect(returnUrl);
+
                 }
                 ModelState.AddModelError("", user.Message);
                 return View(dto);
@@ -135,6 +126,17 @@ namespace Udemy.Adversitement.UI.Controllers.Account
                 return View(dto);
             }
 
+        }
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync(
+    CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index","Home");
+        }
+        public IActionResult Forbidden()
+        {
+            return View();
         }
     }
 }

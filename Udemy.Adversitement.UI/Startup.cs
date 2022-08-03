@@ -63,7 +63,7 @@ namespace Udemy.Adversitement.UI
             {
                 opt.LoginPath = "/Account/SignIn";
                 opt.LogoutPath = "/Account/LogOut";
-                opt.AccessDeniedPath = "/Shared/Forbidden";
+                opt.AccessDeniedPath = "/Account/Forbidden";
                 opt.Cookie.Name = "AdvertisementCookie";
                 opt.Cookie.HttpOnly = true;
                 opt.Cookie.SameSite = SameSiteMode.Strict;//Cookie yabancý kaynaklara kapalý

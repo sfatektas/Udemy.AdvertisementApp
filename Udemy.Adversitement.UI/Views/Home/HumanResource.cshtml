@@ -5,7 +5,7 @@
 @model List<AdvertisementListDto>
 
 
-<div class="accordion mt-5" id="accordionExample">
+<div class="accordion mt-5 container" id="accordionExample">
     @for (int i = 0; i < Model?.Count; i++)
     {
         <div class="accordion-item">
@@ -18,7 +18,17 @@
                 <div class="accordion-body">
                     @Model[i].Description
                 </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p><a class="btn btn-success my-2" asp-controller="Advertisement" asp-action="Apply" asp-route-advertisementId="@Model[i].Id ">Apply</a></p>
+                }
+                else
+                    {
+                    <p class="d-inline-block mx-2">Başvuru için <a asp-controller="Account" asp-action="SignIn" asp-route-returnUrl="/Home/HumanResource"> Giriş Yapınız.</a></p>
+                }
             </div>
+
+
         </div>
     }
 </div>
